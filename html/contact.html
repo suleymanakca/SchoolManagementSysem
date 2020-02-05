@@ -1,0 +1,84 @@
+<div class="container">
+    <ul class="nav nav-tabs">    
+        <li class="active"><a id="tab_table" href="#table">Bulunan Kayıtlar</a></li>
+        <li><a id="tab_kayıt" href="#kayıt"></a></li>
+    </ul>
+</div>
+<div class="tab-content">
+    <div id="table" class="tab-pane fade in active">
+        <button id="Ekle">Ekle</button>
+        <table id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Fakülte adı</th>
+                    <th>Dekan</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div id="kayıt" class="tab-pane fade">
+        <button id="Geri">Geri</button>
+        <button id="Kaydet">Kaydet</button>
+        <div>Adi
+            <input id="fakulte_adi">
+        </div>
+        <div>Dekan Id
+            <input id="dekan_id">
+        </div>
+    </div>    
+</div>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script>
+$(document).ready( function () {
+    $('#Ekle').click(function(){
+        $('.nav-tabs a[href="#kayıt"]').tab('show');
+        $("#tab_kayıt").html("Kayıt Eklemektesiniz");
+    });
+ 
+    $('#Geri').click( function(){
+        $('.nav-tabs a[href="#table"]').tab('show');
+        $("#tab_kayıt").html("");
+        $('#fakulte_adi').val("");
+        $('#dekan_id').val("");
+    });
+    $('#Kaydet').click(function(){
+        var adi_ = $('#fakulte_adi').val();
+        var dekan_id_ = $('#dekan_id').val();
+        console.log("adi", adi_, "dekan_id", dekan_id_);
+
+        var fakulte = {
+            adi : adi_,
+            dekan_id : dekan_id_
+        };
+        
+        $.ajax({
+            type: 'POST', 
+            url : 'php/contact.php',
+            data : fakulte,
+            dataType: 'json',
+            success: function(data){
+               alert(data);
+            }
+            /*error: function(xhr){
+                alert("Request Status: " + xhr.status + "Status Text" + xhr.statusText + " " + xhr.responseText);
+            }*/
+        });
+
+
+    });/*
+    $('#table_id').DataTable({
+        "ajax": {
+            "url": "php/contact.php",
+            "dataSrc": ""
+        },
+        "columns" : [
+            {"data": "id"},
+            {"data": "adi"},
+            {"data": "dekan_id"}
+        ]
+    });*/
+
+} );
+</script>
